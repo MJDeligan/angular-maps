@@ -1,8 +1,11 @@
+import { LatLng } from "leaflet";
 import { Performer } from "./performer";
 
 export interface StreetEvent {
     displayName: string;
-    date: Date;
+    start: Date;
+    end: Date;
     description: string;
     performer: Performer;
+    position: LatLng;
 }

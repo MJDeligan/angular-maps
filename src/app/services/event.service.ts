@@ -18,14 +18,18 @@ export class EventService {
       positions.push(this.getRandomPositionInRadius(location, radius));
     }
 
+    for (let p of positions) console.log(p);
+
     let events: StreetEvent[] = positions.map((p, i) => {
       return {
         displayName: `Event-${i}`,
-        date: new Date(),
+        start: new Date(),
+        end: new Date(Date.now() + Math.trunc(3 * 3600 * 1000 * Math.random())),
         description: `This is the description of Event-${i}`,
         performer: {
-          name: `Artist performing Event-${i}`
-        } as Performer
+          name: `Artist-${i}`
+        } as Performer,
+        position: p
       } as StreetEvent
     });
     
@@ -33,8 +37,8 @@ export class EventService {
   }
 
   private getRandomPositionInRadius(center: LatLng, radius: number) : LatLng {
-    let lat = (Math.random() - 0.5) * radius * 2;
-    let lng = (Math.random() - 0.5) * radius * 2;
+    let lat = center.lat + (Math.random() - 0.5) * radius * 2;
+    let lng = center.lng + (Math.random() - 0.5) * radius * 2;
     return {lat, lng};
   }
 }
