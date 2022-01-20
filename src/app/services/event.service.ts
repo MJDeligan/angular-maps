@@ -18,8 +18,6 @@ export class EventService {
       positions.push(this.getRandomPositionInRadius(location, radius));
     }
 
-    for (let p of positions) console.log(p);
-
     let events: StreetEvent[] = positions.map((p, i) => {
       return {
         displayName: `Event-${i}`,
