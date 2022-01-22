@@ -10,11 +10,18 @@ export class EventService {
 
   constructor() { }
 
-  public getEvents(location: LatLng, radius: number, max?: number) : StreetEvent[] {
-    max = max ?? 25;
+  /**
+   * Returns events in a radius around the location.
+   * @param {LatLng} location The geographics point around which events are searched.
+   * @param {number} radius The radius in degrees around the location in which to search events.
+   * @param {number} limit The number of maximum events to be returned @default 25.
+   * @returns a list of {@link StreetEvent StreetEvents}.
+   */
+  public getEvents(location: LatLng, radius: number, limit?: number) : StreetEvent[] {
+    limit = limit ?? 25;
 
     let positions: LatLng[] = [];
-    for (let i = 0; i < max; i++) {
+    for (let i = 0; i < limit; i++) {
       positions.push(this.getRandomPositionInRadius(location, radius));
     }
 
@@ -34,9 +41,21 @@ export class EventService {
     return events;
   }
 
+  /**
+   * Calculates a random geo-point around a center geo-point in a given radius
+   * 
+   * Uses a simplified algorithm generating random points within a circle, which only approximates 
+   * a true geographical radius.
+   * @param center The point to generate new points around.
+   * @param radius The radius (in degrees) in which points will be generated.
+   * @returns A randomly generated point (as {@link LatLng})
+   */
   private getRandomPositionInRadius(center: LatLng, radius: number) : LatLng {
-    let lat = center.lat + (Math.random() - 0.5) * radius * 2;
-    let lng = center.lng + (Math.random() - 0.5) * radius * 2;
+    // points near the center are closer together, bias random radius towards outside
+    let randomDistance = Math.sqrt(Math.random()) * radius;
+    let randomAngle = Math.random() * 2 * Math.PI; // random angle in circle
+    let lat = center.lat + (Math.cos(randomAngle) * randomDistance);
+    let lng = center.lng + (Math.sin(randomAngle) * randomDistance);
     return {lat, lng};
   }
 }

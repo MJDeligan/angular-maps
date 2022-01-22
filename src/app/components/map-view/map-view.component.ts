@@ -8,8 +8,6 @@ import {
   SimpleChanges,
   SecurityContext,
   HostListener,
-  ComponentFactoryResolver,
-  Injector
 } from '@angular/core';
 import { Map, TileLayer, Marker, LayerGroup, Icon, Popup } from 'leaflet';
 import { DomSanitizer } from '@angular/platform-browser';
