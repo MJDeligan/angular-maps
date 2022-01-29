@@ -49,13 +49,23 @@ export class LocationSelectionPageComponent implements AfterViewInit {
     this.marker = new Marker(latlng, {icon: this.map.defaultIcon});
     this.reverseGeocodeService.reverseSearch(latlng).subscribe(
       (res: ReverseGeocodeResult) => {
-        this.handleLocationResult({latlng, info: res})
         this.map.setMarker(this.marker);
+        this.handleLocationResult({latlng, info: res})
       }
     );
   }
 
   private handleLocationResult(detailedLocation: DetailedLocation) {
+    let address = this.buildAddress(detailedLocation);
+    
+    const popUp = new Popup({minWidth: 200, maxWidth: 300, offset: [0, -30], closeOnClick: false})
+                      .setContent(address);
+    this.marker.bindPopup(popUp);
+    this.marker.openPopup();
+  }
+
+
+  private buildAddress(detailedLocation: DetailedLocation) {
     let address = '';
     if (detailedLocation.info.address.road) {
       address += detailedLocation.info.address.road;
@@ -75,12 +85,8 @@ export class LocationSelectionPageComponent implements AfterViewInit {
     } else if (detailedLocation.info.address.state) {
       address += ', ' + detailedLocation.info.address.state;
     }
-    if (detailedLocation.info.address.country) address += ', ' + detailedLocation.info.address.country;
-    
-    const popUp = new Popup({minWidth: 200, maxWidth: 300, offset: [0, -30]})
-                      .setContent(address);
-    this.marker.bindPopup(popUp);
-    this.marker.openPopup();
+    if (detailedLocation.info.address.country)
+      address += ', ' + detailedLocation.info.address.country;
+    return address;
   }
-
 }
