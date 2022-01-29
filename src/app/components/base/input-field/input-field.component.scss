@@ -1,0 +1,83 @@
+$font-size-medium: 18px;
+$font-size-small: 12px;
+
+.input-container {
+  width: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  padding-top: 2px;
+  &.focused > input {
+    background: #ddd;
+  }
+
+  &::after{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+    display: block;
+    height: 2px;
+    background: #2196F3;
+    transition: width 0.3s;
+    width: 0%;
+  }
+  
+  &.focused::after {
+    width: 100%;
+  }
+}
+  
+input {
+  box-sizing: border-box;
+  font-size: $font-size-medium;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #757575;
+  border-radius: 4px 4px 0px 0px;
+  background-color: #eee;
+  &:focus {
+    outline: 0px solid #ccc;
+  } 
+}
+
+input.small {
+  font-size: $font-size-small;
+}
+  
+label {
+  z-index: 2;
+  color: #333; 
+  font-size: $font-size-medium;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  bottom: 10px;
+  transition: 0.3s ease all; 
+  -moz-transition: 0.2s ease all; 
+  -webkit-transition: 0.2s ease all;
+}
+
+label.small {
+  font-size: $font-size-small;
+}
+
+/* active state */
+label.elevated	{
+    bottom: 45px;
+    font-size: $font-size-medium;
+    color: #000;
+}
+
+label.elevated.small {
+  bottom: 40px;
+  font-size: $font-size-small;
+}
+
+.error {
+  color: #a94442;
+  height: 14px;
+}

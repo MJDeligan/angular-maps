@@ -1,0 +1,17 @@
+<div class="input-container" [class.focused]="focused">
+    <label [for]="id" [class.elevated]="elevatedLabel" [class.small]="small">{{ label }}</label>
+    <input
+      [class.small]="small"
+      [id]="id"
+      [disabled]="disabled"
+      [style]="style"
+      [type]="type"
+      (blur)="toggle(); onTouched(); blurred.emit()"
+      (focus)="onFocus()"
+      (input)="onChange(value)"
+      [(ngModel)]="value"
+      (ngModelChange)="updateChanges()"
+      [autocomplete]="autocomplete ? '' : 'off'"
+    />
+  </div>
+  <small class="error mt-2 d-block">{{ error }}</small>

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Map, TileLayer, Marker, Icon, LeafletMouseEvent, LatLng, Control} from 'leaflet';
 
 @Component({
@@ -6,7 +6,7 @@ import { Map, TileLayer, Marker, Icon, LeafletMouseEvent, LatLng, Control} from 
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnChanges {
 
   @Output() locationResult: EventEmitter<LatLng> = new EventEmitter();
 
@@ -142,6 +142,14 @@ export class MapComponent implements AfterViewInit {
     osmTileLayer.addTo(this.map);
 
     this.map.on('click', (e: LeafletMouseEvent) => this.handleClick(e));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.map) {
+      if (changes.width || changes.height) {
+        setTimeout(() => this.map.invalidateSize());
+      }
+    }
   }
 
 

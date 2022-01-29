@@ -9,6 +9,11 @@ import { MapViewPageComponent } from './pages/map-view-page/map-view-page.compon
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LocationSelectionPageComponent } from './pages/location-selection-page/location-selection-page.component';
+import { InputFieldComponent } from './components/base/input-field/input-field.component';
+import { FormsModule } from '@angular/forms';
+import { GeosearchInputComponent } from './components/geosearch-input/geosearch-input.component';
+import { ResultListComponent } from './components/result-list/result-list.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +22,17 @@ import { LocationSelectionPageComponent } from './pages/location-selection-page/
     MapViewComponent,
     MapViewPageComponent,
     MainPageComponent,
-    LocationSelectionPageComponent
+    LocationSelectionPageComponent,
+    InputFieldComponent,
+    GeosearchInputComponent,
+    ResultListComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

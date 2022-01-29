@@ -64,8 +64,7 @@ export class MapViewComponent implements AfterViewInit, OnChanges {
           });
   }
 
-
-  setupMap(): void {
+  private setupMap(): void {
     this.mapContainer = this.mapRef.nativeElement;
 
     this.map = new Map(this.mapContainer);
@@ -78,13 +77,11 @@ export class MapViewComponent implements AfterViewInit, OnChanges {
     osmTileLayer.addTo(this.map);
   }
 
-
-  setUpAllMarkers(): void {
+  private setUpAllMarkers(): void {
     const markers = this.events!.map((e: StreetEvent) => this.setUpMarkerFromEvent(e));
     this.markerGroup = new LayerGroup(markers);
     this.drawMarkers(this.markerGroup);
   }
-
 
   setUpMarkerFromEvent(event: StreetEvent): Marker {
     const icon = this.baseIcon;
@@ -143,7 +140,6 @@ export class MapViewComponent implements AfterViewInit, OnChanges {
     return `${hours}:${minutes}`;
   }
 
-
   drawMarkers(markerGroup: LayerGroup<Marker>): void {
     this.map.addLayer(markerGroup);
   }
@@ -153,8 +149,7 @@ export class MapViewComponent implements AfterViewInit, OnChanges {
     this.map.removeLayer(markerGroup);
   }
 
-
-  centerView(latitude: number, longitude: number) {
+  public centerView(latitude: number, longitude: number) {
     this.map.setView([latitude, longitude], this.initialZoom, {animate: true});
   }
 
@@ -162,7 +157,6 @@ export class MapViewComponent implements AfterViewInit, OnChanges {
     this.setupMap();
     this.setUpAllMarkers();
   }
-
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.map) {

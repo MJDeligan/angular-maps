@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MapComponent } from 'src/app/components/map/map.component';
 
 import { MapViewPageComponent } from './map-view-page.component';
 
@@ -8,7 +9,7 @@ describe('MapViewPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapViewPageComponent ]
+      declarations: [ MapViewPageComponent, MapComponent ]
     })
     .compileComponents();
   });

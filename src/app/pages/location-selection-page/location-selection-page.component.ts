@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { LatLng } from 'leaflet';
-import { LocationSelectionMapComponent } from 'src/app/components/location-selection-map/location-selection-map.component';
+import {  AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
+import { Control, LatLng, Marker, Popup } from 'leaflet';
+import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch';
+import { MapComponent } from 'src/app/components/map/map.component';
 import { DetailedLocation } from 'src/app/models/detailed-location';
 import { ReverseGeocodeResult } from 'src/app/models/reverse-geocode-result';
 import { ReverseGeocodeService } from 'src/app/services/reverse-geocode.service';
@@ -10,20 +11,47 @@ import { ReverseGeocodeService } from 'src/app/services/reverse-geocode.service'
   templateUrl: './location-selection-page.component.html',
   styleUrls: ['./location-selection-page.component.scss']
 })
-export class LocationSelectionPageComponent implements OnInit {
+export class LocationSelectionPageComponent implements AfterViewInit {
 
   text = 'Click on the map or use the search bar';
-  @ViewChild(LocationSelectionMapComponent) locationC!: LocationSelectionMapComponent;
+  private searchControl!: Control;
+  private marker!: Marker;
+  @ViewChild(MapComponent) map!: MapComponent;
 
   constructor(private reverseGeocodeService: ReverseGeocodeService) { }
 
-  ngOnInit(): void {
+  @HostListener('window:resize')
+  onResize() {
+    this.map.resetSize();
+  }
+
+  ngAfterViewInit(): void {
+    this.setupGeoSearchController();
+  }
+
+  private setupGeoSearchController(): void {
+    const provider = new OpenStreetMapProvider();
+    const searchControl = GeoSearchControl({
+      provider,
+      style: 'bar',
+      marker: {
+        icon: this.map.defaultIcon,
+        draggable: false
+      },
+      searchLabel: 'Search address'
+    });
+    this.searchControl = searchControl;
+    this.map.addControl(this.searchControl)
   }
 
   handleLocation(latlng: LatLng) {
+    if (this.marker) this.map.removeMarker(this.marker);
+    this.marker = new Marker(latlng, {icon: this.map.defaultIcon});
     this.reverseGeocodeService.reverseSearch(latlng).subscribe(
       (res: ReverseGeocodeResult) => {
-        this.handleLocationResult({latlng, info: res})}
+        this.handleLocationResult({latlng, info: res})
+        this.map.setMarker(this.marker);
+      }
     );
   }
 
@@ -48,7 +76,11 @@ export class LocationSelectionPageComponent implements OnInit {
       address += ', ' + detailedLocation.info.address.state;
     }
     if (detailedLocation.info.address.country) address += ', ' + detailedLocation.info.address.country;
-    this.locationC.popup(address);
+    
+    const popUp = new Popup({minWidth: 200, maxWidth: 300, offset: [0, -30]})
+                      .setContent(address);
+    this.marker.bindPopup(popUp);
+    this.marker.openPopup();
   }
 
 }

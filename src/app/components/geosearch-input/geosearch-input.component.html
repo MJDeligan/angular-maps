@@ -1,0 +1,20 @@
+<div class="container">
+    <app-input-field
+      [(ngModel)]="searchText"
+      [label]="label"
+      id="search"
+      (inFocus)="focus = true"
+      (blurred)="onBlurred()"
+      (ngModelChange)="changed($event)"
+      [autocomplete]="false"
+      [small]="true"
+    ></app-input-field>
+        <app-result-list
+            [hidden]="!focus || searchText === ''"
+            [dirty]="searchText !== ''"
+            [focus]="focus"
+            (resultSelected)="onResult($event)"
+            [resultList]="results"
+            [repr]="resultTransform"
+            ></app-result-list>
+    </div>

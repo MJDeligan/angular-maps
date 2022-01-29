@@ -1,0 +1,6 @@
+<div class="search-list">
+    <div *ngIf="resultList.length === 0 && dirty; else resultListEl" class="no-results-found-text">No results</div>
+    <ng-template #resultListEl>
+        <div *ngFor="let result of resultList" (click)="onResult(result)" class="result-list-item">{{repr(result)}}</div>
+    </ng-template>
+</div>
