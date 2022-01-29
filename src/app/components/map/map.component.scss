@@ -1,0 +1,9 @@
+.location-selection {
+    cursor: pointer;
+    &:active:not(.frozen) {
+        cursor: grabbing;
+    }
+    &.frozen:active {
+        cursor: not-allowed;
+    }
+}
