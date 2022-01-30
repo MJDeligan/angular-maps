@@ -63,5 +63,6 @@ describe('MapComponent', () => {
     component.removeMarker(marker);
 
     el = fixture.debugElement.query(By.css('.leaflet-marker-icon'));
+    expect(el).toBeFalsy();
   });
 });

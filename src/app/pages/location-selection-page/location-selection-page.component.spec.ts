@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { LatLng } from 'leaflet';
-import { MockComponent, ngMocks } from 'ng-mocks';
+import { ngMocks } from 'ng-mocks';
 import { of } from 'rxjs';
 import { MapComponent } from 'src/app/components/map/map.component';
 import { ReverseGeocodeResult } from 'src/app/models/reverse-geocode-result';
@@ -17,7 +18,7 @@ describe('LocationSelectionPageComponent', () => {
     const spy = jasmine.createSpyObj('ReverseGeoCodeService', ['reverseSearch']);
 
     await TestBed.configureTestingModule({
-      declarations: [ LocationSelectionPageComponent, MockComponent(MapComponent) ],
+      declarations: [ LocationSelectionPageComponent, MapComponent ],
       providers: [{ provide: ReverseGeocodeService, useValue: spy }],
     })
     .compileComponents();
@@ -36,7 +37,7 @@ describe('LocationSelectionPageComponent', () => {
   });
 
   it('should call handler for output', () => {
-    const mockMap = ngMocks.findInstance(MapComponent);
+    const map = ngMocks.findInstance(MapComponent);
     ngMocks.stubMember(
       component,
       'handleLocation',
@@ -44,13 +45,12 @@ describe('LocationSelectionPageComponent', () => {
     );
 
     const testPoint: LatLng = {lat: 0, lng: 0} as LatLng;
-    mockMap.locationResult.emit(testPoint);
+    map.locationResult.emit(testPoint);
 
     expect(component.handleLocation).toHaveBeenCalledWith(testPoint);
   });
 
   it('should call reverse search when handling location', () => {
-    const mockMap = ngMocks.findInstance(MapComponent);
 
     reverseGeoCodeServiceSpy.reverseSearch.and.returnValue(of(
       {
@@ -71,9 +71,27 @@ describe('LocationSelectionPageComponent', () => {
     } as ReverseGeocodeResult));
 
     const testPoint: LatLng = {lat: 0, lng: 0} as LatLng;
-    mockMap.locationResult.emit(testPoint);
+    component.handleLocation(testPoint);
 
     expect(reverseGeoCodeServiceSpy.reverseSearch).toHaveBeenCalledWith(testPoint);
+  });
+
+  it('should put a popup with text when handling location', () => {
+    const msg = 'Hello World';
+
+    reverseGeoCodeServiceSpy.reverseSearch.and.returnValue(of({} as ReverseGeocodeResult)); // value doesn't matter
+
+    // @ts-ignore - Private but we just need some text to check if it's inserted.
+    ngMocks.stubMember(component, 'buildAddress', () => msg);
+
+    component.handleLocation({lat: 0, lng: 0} as LatLng);
+    fixture.detectChanges();
+
+    const popup = fixture.debugElement.query(By.css('.leaflet-popup'));
+
+    expect(popup).toBeTruthy();
+    expect(popup.nativeElement.textContent).toContain(msg);
+  
   });
 
 });
