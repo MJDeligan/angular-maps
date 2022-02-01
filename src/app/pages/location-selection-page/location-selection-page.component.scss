@@ -1,3 +1,42 @@
+.tip {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    // transform: translateX(calc(-100% - 50px));
+    border-radius: 5px;
+    border: 1px solid #1b5e20;
+    color: #1b5e20;
+    padding: 8px 24px 8px 16px;
+    z-index: 1000;
+    background: rgba(76, 175, 80, 0.25);
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+.tip-remove {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    color: #333;
+    height: 12px;
+    width: 12px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+        content: "✕";
+        font-size: 8px;
+        font-weight: 700;
+    }
+}
+
 .container {
     max-width: 500px;
     height: 75vh;

@@ -1,3 +1,4 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import {  AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
 import { Control, LatLng, Marker, Popup } from 'leaflet';
 import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch';
@@ -9,11 +10,26 @@ import { ReverseGeocodeService } from 'src/app/services/reverse-geocode.service'
 @Component({
   selector: 'app-location-selection-page',
   templateUrl: './location-selection-page.component.html',
-  styleUrls: ['./location-selection-page.component.scss']
+  styleUrls: ['./location-selection-page.component.scss'],
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({opacity: 0}),
+          animate('500ms', style({opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({opacity: 1}),
+          animate('500ms', style({opacity: 0}))
+        ])
+      ]
+    )
+  ],
 })
 export class LocationSelectionPageComponent implements AfterViewInit {
 
-  text = 'Click on the map or use the search bar';
+  _showTip = false;
+  _text = 'Click on the map or use the search bar';
   private searchControl!: Control;
   private marker!: Marker;
   @ViewChild(MapComponent) map!: MapComponent;
@@ -26,6 +42,7 @@ export class LocationSelectionPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => this._showTip = true, 1000);
     this.setupGeoSearchController();
   }
 
