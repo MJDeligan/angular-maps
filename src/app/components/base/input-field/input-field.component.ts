@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, Output, EventEmitter} from '@angular/core';
+import {Component, forwardRef, Input, Output, EventEmitter, HostBinding} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
@@ -34,7 +34,7 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Output() blurred = new EventEmitter();
   value = '';
   disabled!: boolean;
-  focused = false;
+  @HostBinding('class.focused') focused = false;
 
   get elevatedLabel() {
     return this.focused || this.value;

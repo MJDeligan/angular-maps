@@ -1,7 +1,7 @@
 $font-size-medium: 18px;
 $font-size-small: 12px;
 
-.input-container {
+:host {
   width: 100%;
   box-sizing: border-box;
   display: inline-block;
