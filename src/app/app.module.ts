@@ -15,6 +15,7 @@ import { GeosearchInputComponent } from './components/geosearch-input/geosearch-
 import { ResultListComponent } from './components/result-list/result-list.component';
 import { MapComponent } from './components/map/map.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalComponent } from './components/base/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     GeosearchInputComponent,
     ResultListComponent,
     MapComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
