@@ -46,18 +46,19 @@ h6 {
   margin: 0 16px;
 }
 
-.toolbar #twitter-logo {
+.icon-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar .icon-link {
   height: 40px;
+  width: 40px;
   margin: 0 8px;
 }
 
-.toolbar #youtube-logo {
-  height: 40px;
-  margin: 0 16px;
-}
-
-.toolbar #twitter-logo:hover,
-.toolbar #youtube-logo:hover {
+.toolbar .icon-link:hover{
   opacity: 0.8;
 }
 
@@ -81,13 +82,6 @@ a:hover {
   color: #125699;
 }
 
-@media screen and (max-width: 600px) {
-  .toolbar {
-    top: unset;
-    bottom: 0;
-  }
-
-  .content {
-    margin: 0 auto 60px;
-  }  
+a.title {
+  color: #fff;
 }
