@@ -13,6 +13,6 @@
     [dirty]="searchText !== ''"
     [focus]="focus"
     (resultSelected)="onResult($event)"
-    [resultList]="results"
+    [resultList]="results.slice(0, 5)"
     [repr]="resultTransform"
 ></app-result-list>

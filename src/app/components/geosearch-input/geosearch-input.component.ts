@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { GeoSearchResult } from 'src/app/models/geo-search-result';
