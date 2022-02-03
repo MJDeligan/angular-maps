@@ -14,32 +14,61 @@ import { EventService } from 'src/app/services/event.service';
 export class MapViewPageComponent implements AfterViewInit, OnInit {
 
   events: StreetEvent[] = [];
+  markers: Marker[] = [];
   menuActive = false;
+  infoModalOpen = false;
+  settingsModalOpen = false;
+  position: LatLng = {lat: 48.1995, lng: 16.370809} as LatLng;
+  eventAmount = 25;
+  minAmount = 5;
+  maxAmount = 50;
   @ViewChild(MapComponent) map!: MapComponent;
 
   constructor(private eventService: EventService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.events = this.eventService.getEvents({lng: 16.370809, lat: 48.1995}, 0.025);
+    this.events = this.eventService.getEvents(this.position, 0.025);
   }
 
   ngAfterViewInit(): void {
-    for (let event of this.events) {
-      this.map.setMarker(this.createMarkerFromEvent(event));
+    this.setMarkers();
+  }
+
+  setMarkers() {
+    this.events.forEach((event: StreetEvent) => {
+      const marker = this.createMarkerFromEvent(event);
+      this.map.setMarker(marker);
+      this.markers.push(marker);
+    });
+  }
+
+  removeMarkers() {
+    this.markers.forEach((marker: Marker) => {
+      this.map.removeMarker(marker);
+    });
+    this.markers = [];
+  }
+
+  handleGeoSearchResult(result: GeoSearchResult) {
+    this.position = {lat: result.y, lng: result.x} as LatLng;
+  }
+
+  getLocation() {
+    if (window.navigator?.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(
+        (pos: GeolocationPosition) => { this.position = {lat: pos.coords.latitude, lng: pos.coords.longitude} as LatLng;},
+        (err: GeolocationPositionError) => { console.error(err) }
+      );
     }
   }
 
-  toggleMenu() {
-    this.menuActive = !this.menuActive;
+  handleSettingsConfirmed() {
+    this.settingsModalOpen = false;
+    this.removeMarkers();
+    this.events = this.eventService.getEvents(this.position, 0.025, this.eventAmount);
+    this.setMarkers();
+    this.map.centerView(this.position);
   }
-
-  // @HostListener('document:mousedown', ['$event'])
-  // clicked($event: Event) {
-  //   if (!this.menu.nativeElement.contains($event.target)) {
-  //     this.menuActive = false
-  //     console.log('clicked outside');
-  //   }
-  // }
 
   private createMarkerFromEvent(event: StreetEvent): Marker {
     const icon = this.map.defaultIcon;
