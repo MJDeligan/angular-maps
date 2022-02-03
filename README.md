@@ -1,27 +1,12 @@
 # Maps
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.9.
+This is a demonstration of interactive, geographic maps in Angular.  
 
-## Development server
+## Features  
+### Information Representation  
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Displaying information from model data on the map using interactive markers and popups.  
 
-## Code scaffolding
+### Coordinate Selection
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Using map Click-Events to get coordinates that can be used for further processing. In this case a reverse geosearching service is used to generate the address to selected coordinates.
