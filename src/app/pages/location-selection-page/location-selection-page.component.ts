@@ -2,6 +2,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import {  AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
 import { Control, LatLng, Marker, Popup } from 'leaflet';
 import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch';
+import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
+import { Observable } from 'rxjs';
 import { MapComponent } from 'src/app/components/map/map.component';
 import { DetailedLocation } from 'src/app/models/detailed-location';
 import { ReverseGeocodeResult } from 'src/app/models/reverse-geocode-result';
@@ -32,6 +34,7 @@ export class LocationSelectionPageComponent implements AfterViewInit {
   _text = 'Click on the map or use the search bar';
   private searchControl!: Control;
   private marker!: Marker;
+  infoModalOpen = false;
   @ViewChild(MapComponent) map!: MapComponent;
 
   constructor(private reverseGeocodeService: ReverseGeocodeService) { }
@@ -51,14 +54,20 @@ export class LocationSelectionPageComponent implements AfterViewInit {
     const searchControl = GeoSearchControl({
       provider,
       style: 'bar',
-      marker: {
-        icon: this.map.defaultIcon,
-        draggable: false
-      },
-      searchLabel: 'Search address'
+      searchLabel: 'Search address',
+      showMarker: false,
+      retainZoomLevel: true
     });
+    // There seems to be no way to listen to results without the map
+    // so we have to overwrite the showResult method as a workaround
+    let originalShowResult = searchControl.showResult;
+    originalShowResult = originalShowResult.bind(searchControl);
+    searchControl.showResult = (result: SearchResult<any>, query: any) => {
+      this.handleLocation({lat: result.y, lng:result.x} as LatLng);
+      originalShowResult(result, query);
+    };
     this.searchControl = searchControl;
-    this.map.addControl(this.searchControl)
+    this.map.addControl(this.searchControl);
   }
 
   handleLocation(latlng: LatLng) {

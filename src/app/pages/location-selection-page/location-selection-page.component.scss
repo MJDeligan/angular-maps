@@ -1,50 +1,44 @@
-.tip {
-    position: absolute;
-    bottom: 32px;
-    right: 32px;
-    // transform: translateX(calc(-100% - 50px));
-    border-radius: 5px;
-    border: 1px solid #1b5e20;
-    color: #1b5e20;
-    padding: 8px 24px 8px 16px;
-    z-index: 1000;
-    background: rgba(76, 175, 80, 0.25);
-    font-weight: 600;
-    box-sizing: border-box;
-}
-
-.tip-remove {
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0);
-    border: none;
-    color: #333;
-    height: 12px;
-    width: 12px;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &::before {
-        content: "✕";
-        font-size: 8px;
-        font-weight: 700;
-    }
-}
-
 .container {
-    max-width: 500px;
-    height: 75vh;
+    height: calc(100vh - 80px);
     width: 100vw;
 
     & > .map-container {
         height: 100%;
     }
+}
+
+.btn-group {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    z-index: 500;
+}
+
+.btn-group .map-btn:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+.map-btn {
+    cursor: pointer;
+    padding: 8px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba($color: #333, $alpha: 0.9);
+}
+
+.map-btn .circle-icon {
+    color: #fff;
+    width: 100%;
+    height: 100%;
+}
+
+.map-btn:hover {
+    background-color: #333;
 }
 
 .attribution {
@@ -53,11 +47,4 @@
     position: absolute;
     right: 4px;
     bottom: 4px;
-}
-
-@media screen and (max-width: 600px) {
-    .container {
-        display: flex;
-        flex-direction: column-reverse;
-    }
 }
