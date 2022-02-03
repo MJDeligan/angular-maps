@@ -10,3 +10,6 @@ Displaying information from model data on the map using interactive markers and 
 ### Coordinate Selection
 
 Using map Click-Events to get coordinates that can be used for further processing. In this case a reverse geosearching service is used to generate the address to selected coordinates.
+
+Check it live:
+https://deligan-angular-maps.netlify.app/
